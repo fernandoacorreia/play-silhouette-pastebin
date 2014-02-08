@@ -32,7 +32,7 @@ Particularly, it's out of the scope of this sample:
 
 ### Instructions
 
-TODO: how to run locally, how to run tests, how to deploy (e.g. Heroku), etc.
+TODO: how to run locally, how to run tests, how to deploy (e.g. Heroku), how to work in Activator, etc.
 
 
 ### Use cases
