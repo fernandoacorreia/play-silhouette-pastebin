@@ -38,11 +38,11 @@ Particularly, it's out of the scope of this sample:
 TODO: how to run locally, how to run tests, how to deploy (e.g. Heroku), how to work in Activator, etc.
 
 
-### Use cases
+### Domain use cases
 
 #### List latest texts
 
-A user can see a list of most recently created or edited texts which they are allowed to view.
+A user can see a list of the most recently created or edited texts which they are allowed to view.
 
 #### View text
 
@@ -77,7 +77,7 @@ Privacy levels are:
 See the authorization features section below for more details on permissions.
 
 
-### Authentication features
+### Authentication use cases
 
 #### Sign in with external services
 
@@ -89,7 +89,7 @@ If there's already a user account which was created by authenticating with anoth
 
 #### Sign up
 
-A user can sign up to the application to create a password which is specific to the application.
+A user can sign up to the application to create credentials which will be specific to the application.
 
 A sign up request will have to be confirmed through a token sent by email.
 
@@ -113,9 +113,9 @@ A token will be sent by email. After clicking on the link containing the token, 
 
 #### Change password
 
-An authenticated user, or a user which has clicked on a link with a password reset token, will be able to change the password of their application credential.
+An authenticated user, or a user which has clicked on a link with a password reset token, will be able to change the password of their application credentials.
 
-This only applies to user accounts which have signed up and created an application credential.
+This only applies to user accounts which have signed up and created application credentials.
 
 #### Sign out
 
@@ -124,7 +124,7 @@ A user can sign out from the application, regardless of whether they signed in w
 Their session will be deactivated and they will be considered an anonymous user until they sign in again.
 
 
-### Authorization features
+### Authorization rules
 
 #### Anonymous access
 
@@ -157,6 +157,13 @@ A user will also be allowed to update their own profile, but not other users' pr
 Application administrators will be allowed to view, delete and change the privacy level of any text created by any user.
 
 They will not be allowed to edit texts created by other users.
+
+
+### RESTful API
+
+The texts will be exposed through a RESTful API, using JSON data format.
+
+This API will provide all the operations supported by the domain use cases, will recognize authenticated users, and will be subject to the same authorization rules.
 
 
 ### Architecture
