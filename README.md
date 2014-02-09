@@ -21,6 +21,7 @@ In particular, this sample demonstrates:
 * How to implement proprietary authentication based on credentials (username and password).
 * How to implement authorization for web pages.
 * How to implement authorization for a RESTful JSON API.
+* How to implement internationalization to support different languages and cultures.
 * Custom credentials service...
 * Custom controllers and templates...
 * How to...
@@ -170,10 +171,16 @@ This API will provide all the operations supported by the domain use cases, will
 
 ### Architecture
 
-TODO the application is organized in this way...
+The application is organized in this way:
 
-TODO these tools and libraries are used...
+* TODO...
 
+These tools and libraries are used:
+
+* Database: [H2 Database Engine](http://www.h2database.com/html/main.html) in embedded mode.
+* Database access: [Slick](http://slick.typesafe.com/) and [play-slick](https://github.com/freekh/play-slick).
+* Database migrations: [Flyway](http://flywaydb.org/) and [play-flyway](https://github.com/tototoshi/play-flyway).
+* TODO...
 
 ### Copyright and License
 

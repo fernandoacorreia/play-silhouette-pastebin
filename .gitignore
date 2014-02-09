@@ -17,3 +17,4 @@ activator-sbt-*-shim.sbt
 /.target
 /bin
 /.cache
+/play-silhouette-pastebin.h2.db
