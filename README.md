@@ -21,6 +21,8 @@ In particular, this sample demonstrates:
 * How to implement proprietary authentication based on credentials (username and password).
 * How to implement authorization for web pages.
 * How to implement authorization for a RESTful JSON API.
+* Custom credentials service...
+* Custom controllers and templates...
 * How to...
 
 Due to Silhouette's loosely coupled and flexible design, this is not by any measure an exhaustive list of how Silhouette can be leveraged.
@@ -28,7 +30,7 @@ Due to Silhouette's loosely coupled and flexible design, this is not by any meas
 Particularly, it's out of the scope of this sample:
 
 * Custom cache layers.
-* Custom credentials service.
+
 * Custom ...
 * ...
 
