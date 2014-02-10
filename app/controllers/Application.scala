@@ -1,9 +1,17 @@
 package controllers
 
-import play.api.mvc.{Action, Controller}
+import com.mohiva.play.silhouette.core.Silhouette
+import com.mohiva.play.silhouette.contrib.User
+import com.mohiva.play.silhouette.contrib.services.CachedCookieAuthenticator
+import javax.inject.Inject
+import com.mohiva.play.silhouette.core.services.{AuthenticatorService, IdentityService}
 
-object Application extends Controller {
-  def index = Action {
+class Application @Inject() (
+  val identityService: IdentityService[User],
+  val authenticatorService: AuthenticatorService[CachedCookieAuthenticator])
+    extends Silhouette[User, CachedCookieAuthenticator] {
+
+  def index = SecuredAction {
     Ok(views.html.index("Hello Play Framework"))
   }
 }
