@@ -18,11 +18,11 @@
 
 -- TODO users, login info, profiles, etc.
 
-create table users
+CREATE TABLE USERS
 (
-  id uuid primary key not null,
-  username varchar not null,
-  creation_time_utc timestamp not null,
-  update_time_utc timestamp not null,
-  is_soft_deleted boolean not null default false
+  ID UUID PRIMARY KEY NOT NULL,
+  USERNAME VARCHAR NOT NULL,
+  CREATION_TIME_UTC TIMESTAMP NOT NULL,
+  UPDATE_TIME_UTC TIMESTAMP NOT NULL,
+  IS_SOFT_DELETED BOOLEAN NOT NULL DEFAULT FALSE
 );

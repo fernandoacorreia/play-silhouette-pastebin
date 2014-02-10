@@ -1,5 +1,5 @@
 /**
- * Creates database tables for storing domain data.
+ * Test helper object.
  *
  * Copyright 2014 Mohiva Organisation (license at mohiva dot com)
  *
@@ -16,15 +16,23 @@
  * limitations under the License.
  */
 
-CREATE TABLE TEXTS
-(
-  ID UUID PRIMARY KEY NOT NULL,
-  TITLE VARCHAR NOT NULL,
-  CONTENTS CLOB NOT NULL,
-  PRIVACY_LEVEL TINYINT NOT NULL,
-  SOURCE_ID UUID REFERENCES TEXTS,
-  CREATOR_ID UUID NOT NULL REFERENCES USERS,
-  CREATION_TIME_UTC TIMESTAMP NOT NULL,
-  UPDATE_TIME_UTC TIMESTAMP NOT NULL,
-  IS_SOFT_DELETED BOOLEAN NOT NULL DEFAULT FALSE
-);
+package com.mohiva.play.silhouette.pastebin.testing
+
+import play.api.db.slick.Config.driver.simple._
+import scala.slick.jdbc.{ StaticQuery => Q }
+import Q.interpolation
+
+/** Provides helper function for tests. */
+object TestHelper {
+
+  /**
+   * Deletes all records from the database, in the proper order to avoid referential integrity violations.
+   *
+   * @param s A database session.
+   */
+  def cleanDatabase(implicit s: Session) {
+    sqlu"DELETE FROM TEXTS".first
+    sqlu"DELETE FROM USERS".first
+  }
+
+}

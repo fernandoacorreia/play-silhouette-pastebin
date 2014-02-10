@@ -7,6 +7,8 @@ Silhouette Pastebin is a basic example of how to use [Silhouette](http://silhoue
 
 It implements a simple web application for saving and sharing texts.
 
+**This is a work in progress.**
+
 
 ### Introduction
 
@@ -38,7 +40,21 @@ Particularly, it's out of the scope of this sample:
 
 ### Instructions
 
-TODO: how to run locally, how to run tests, how to deploy (e.g. Heroku), how to work in Activator, etc.
+Run locally:
+
+    scripts/sbt ~run
+
+Test locally:
+
+    scripts/sbt test
+
+Package for distribution:
+
+    scripts/sbt dist
+
+Deploy to Heroku:
+
+    TODO
 
 
 ### Domain use cases
