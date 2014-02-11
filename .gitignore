@@ -18,3 +18,4 @@ activator-sbt-*-shim.sbt
 /bin
 /.cache
 /play-silhouette-pastebin.h2.db
+/play-silhouette-pastebin.trace.db
