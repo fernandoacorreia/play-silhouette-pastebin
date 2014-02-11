@@ -101,8 +101,8 @@ object Texts {
    * @param s A database session.
    */
   def insert(text: Text)(implicit s: Session) = {
-    val textToInsert = text.copy(creationTimeUTC = utcNow, updateTimeUTC = DateTime.now())
-    q.insert(text)
+    val textToInsert = text.copy(creationTimeUTC = utcNow, updateTimeUTC = utcNow)
+    q.insert(textToInsert)
   }
 
   /**

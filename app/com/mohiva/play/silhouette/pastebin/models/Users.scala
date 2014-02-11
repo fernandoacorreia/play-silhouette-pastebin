@@ -86,8 +86,8 @@ object Users {
    * @param s A database session.
    */
   def insert(user: User)(implicit s: Session) = {
-    val userToInsert = user.copy(creationTimeUTC = DateTime.now(), updateTimeUTC = utcNow)
-    q.insert(user)
+    val userToInsert = user.copy(creationTimeUTC = utcNow, updateTimeUTC = utcNow)
+    q.insert(userToInsert)
   }
 
   /**
