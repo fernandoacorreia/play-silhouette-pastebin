@@ -1,4 +1,4 @@
-package com.mohiva.play.silhouette.pastebin
+package com.mohiva.play.silhouette.pastebin.controllers
 
 import org.specs2.mutable._
 import org.specs2.runner._
