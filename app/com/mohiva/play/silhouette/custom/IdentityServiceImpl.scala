@@ -1,4 +1,4 @@
-package util.silhouette
+package com.mohiva.play.silhouette.custom
 
 import scala.concurrent.Future
 import com.mohiva.play.silhouette.core.services.IdentityService

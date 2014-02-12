@@ -2,7 +2,7 @@ package app
 
 import com.google.inject.Guice
 import play.api.GlobalSettings
-import util.di.BaseModule
+import com.mohiva.play.silhouette.custom.BaseModule
 
 /**
  * The global configuration.
@@ -10,9 +10,9 @@ import util.di.BaseModule
 object Global extends GlobalSettings {
 
   /**
-   * The Guice injector.
+   * The Guice dependencies injector.
    */
-  val Injector = createInjector
+  val injector = Guice.createInjector(new BaseModule)
 
   /**
    * Loads the controller classes with the Guice injector. So it's possible to inject dependencies
@@ -22,14 +22,7 @@ object Global extends GlobalSettings {
    * @return The instance of the controller class.
    * @throws Exception if the controller couldn't be instantiated.
    */
-  override def getControllerInstance[A](controllerClass: Class[A]): A = {
-    Injector.getInstance(controllerClass)
-  }
+  override def getControllerInstance[A](controllerClass: Class[A]): A =
+    injector.getInstance(controllerClass)
 
-  /**
-   * Create the injector instance.
-   *
-   * @return The injector instance.
-   */
-  private def createInjector = Guice.createInjector(new BaseModule)
 }

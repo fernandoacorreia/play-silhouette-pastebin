@@ -1,4 +1,4 @@
-package util.silhouette
+package com.mohiva.play.silhouette.custom
 
 import com.mohiva.play.silhouette.core.services.AuthInfoService
 import com.mohiva.play.silhouette.core.LoginInfo
