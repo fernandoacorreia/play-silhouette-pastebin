@@ -1,9 +1,9 @@
-package com.mohiva.play.silhouette.custom
+package custom
 
-import com.mohiva.play.silhouette.core.services.AuthInfoService
 import com.mohiva.play.silhouette.core.LoginInfo
-import scala.concurrent.Future
 import com.mohiva.play.silhouette.core.providers.OAuth2Info
+import com.mohiva.play.silhouette.core.services.AuthInfoService
+import scala.concurrent.Future
 
 /**
  * Base implementation to show how Guice works.
@@ -32,6 +32,5 @@ class AuthInfoServiceImpl extends AuthInfoService {
    * @return The retrieved auth info or None if no auth info could be retrieved for the given login info.
    */
   def retrieve[T](loginInfo: LoginInfo): Future[Option[T]] = Future.successful(Some(
-    OAuth2Info("token").asInstanceOf[T]
-  ))
+    OAuth2Info("token").asInstanceOf[T]))
 }

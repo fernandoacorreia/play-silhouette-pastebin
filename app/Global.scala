@@ -1,8 +1,8 @@
 package app
 
 import com.google.inject.Guice
+import custom.BaseModule
 import play.api.GlobalSettings
-import com.mohiva.play.silhouette.custom.BaseModule
 
 /**
  * The global configuration.

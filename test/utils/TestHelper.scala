@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.mohiva.play.silhouette.pastebin.testing
+package utils
 
 import play.api.db.slick.Config.driver.simple._
 import scala.slick.jdbc.{ StaticQuery => Q }

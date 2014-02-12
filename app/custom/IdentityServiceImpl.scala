@@ -1,9 +1,9 @@
-package com.mohiva.play.silhouette.custom
+package custom
 
-import scala.concurrent.Future
-import com.mohiva.play.silhouette.core.services.IdentityService
-import com.mohiva.play.silhouette.core.LoginInfo
 import com.mohiva.play.silhouette.contrib.User
+import com.mohiva.play.silhouette.core.LoginInfo
+import com.mohiva.play.silhouette.core.services.IdentityService
+import scala.concurrent.Future
 
 /**
  * Base implementation to show how Guice works.
@@ -23,7 +23,6 @@ class IdentityServiceImpl extends IdentityService[User] {
       lastName = "Kaps",
       fullName = "Christian Kaps",
       email = None,
-      avatarURL = None
-    )))
+      avatarURL = None)))
   }
 }
