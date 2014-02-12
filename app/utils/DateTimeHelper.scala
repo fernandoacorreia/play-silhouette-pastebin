@@ -1,4 +1,4 @@
-package com.mohiva.play.silhouette.pastebin.utils
+package utils
 
 import org.joda.time._
 

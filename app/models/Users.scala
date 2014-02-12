@@ -16,13 +16,13 @@
  * limitations under the License.
  */
 
-package com.mohiva.play.silhouette.pastebin.models
+package models
 
 import com.github.tototoshi.slick.H2JodaSupport._
-import com.mohiva.play.silhouette.pastebin.utils.DateTimeHelper._
 import java.util.UUID
 import play.api.db.slick.Config.driver.simple._
 import org.joda.time._
+import utils.DateTimeHelper._
 
 /**
  * Represents a user.

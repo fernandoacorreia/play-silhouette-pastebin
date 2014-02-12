@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 
-package com.mohiva.play.silhouette.pastebin.models
+package models
 
-import com.mohiva.play.silhouette.pastebin.testing.TestHelper._
 import java.util.UUID
+import models._;
 import org.h2.jdbc.JdbcSQLException
 import org.specs2.mutable._
 import org.specs2.specification._
@@ -31,6 +31,7 @@ import play.api.test.Helpers._
 import play.api.Play.current
 import scala.slick.jdbc.{ StaticQuery => Q }
 import Q.interpolation
+import utils.TestHelper._
 
 class UsersSpec extends Specification with BeforeExample {
 

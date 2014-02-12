@@ -1,18 +1,16 @@
-package com.mohiva.play.silhouette.custom
+package custom
 
 import play.api.Play
 import play.api.Play.current
-import com.google.inject.{Provides, AbstractModule}
-import net.codingwell.scalaguice.ScalaModule
+import com.google.inject.{ Provides, AbstractModule }
+import com.mohiva.play.silhouette.contrib.services.{ CachedCookieAuthenticatorService, CachedCookieAuthenticatorSettings, CachedCookieAuthenticator }
 import com.mohiva.play.silhouette.contrib.User
-import com.mohiva.play.silhouette.core.utils._
-import com.mohiva.play.silhouette.core.services.{AuthInfoService, AuthenticatorService, IdentityService}
+import com.mohiva.play.silhouette.contrib.utils.{ SecureRandomIDGenerator, PlayCacheLayer }
+import com.mohiva.play.silhouette.core.services.{ AuthInfoService, AuthenticatorService, IdentityService }
 import com.mohiva.play.silhouette.core.providers.OAuth2Settings
 import com.mohiva.play.silhouette.core.providers.oauth2.FacebookProvider
-import com.mohiva.play.silhouette.contrib.utils.{SecureRandomIDGenerator, PlayCacheLayer}
-import com.mohiva.play.silhouette.contrib.services.CachedCookieAuthenticatorService
-import com.mohiva.play.silhouette.contrib.services.CachedCookieAuthenticatorSettings
-import com.mohiva.play.silhouette.contrib.services.CachedCookieAuthenticator
+import com.mohiva.play.silhouette.core.utils._
+import net.codingwell.scalaguice.ScalaModule
 
 /**
  * The base module is used to wire common dependencies.
@@ -58,7 +56,6 @@ class BaseModule extends AbstractModule with ScalaModule {
       accessTokenURL = Play.configuration.getString("silhouette.facebook.accessTokenURL").get,
       redirectURL = Play.configuration.getString("silhouette.facebook.redirectURL").get,
       clientID = Play.configuration.getString("silhouette.facebook.clientID").get,
-      clientSecret = Play.configuration.getString("silhouette.facebook.clientSecret").get
-    ))
+      clientSecret = Play.configuration.getString("silhouette.facebook.clientSecret").get))
   }
 }
