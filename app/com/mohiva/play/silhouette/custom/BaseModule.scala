@@ -1,4 +1,4 @@
-package util.di
+package com.mohiva.play.silhouette.custom
 
 import play.api.Play
 import play.api.Play.current
@@ -13,7 +13,6 @@ import com.mohiva.play.silhouette.contrib.utils.{SecureRandomIDGenerator, PlayCa
 import com.mohiva.play.silhouette.contrib.services.CachedCookieAuthenticatorService
 import com.mohiva.play.silhouette.contrib.services.CachedCookieAuthenticatorSettings
 import com.mohiva.play.silhouette.contrib.services.CachedCookieAuthenticator
-import util.silhouette.{AuthInfoServiceImpl, IdentityServiceImpl}
 
 /**
  * The base module is used to wire common dependencies.
@@ -45,12 +44,12 @@ class BaseModule extends AbstractModule with ScalaModule {
   }
 
   /**
-   * Provides the facebook provider.
+   * Provides the Facebook provider.
    *
    * @param authInfoService The auth info service.
    * @param cacheLayer The cache layer implementation.
    * @param httpLayer The HTTP layer implementation.
-   * @return The facebook provider.
+   * @return The Facebook provider.
    */
   @Provides
   def provideFacebookProvider(authInfoService: AuthInfoService, cacheLayer: CacheLayer, httpLayer: HTTPLayer): FacebookProvider = {
