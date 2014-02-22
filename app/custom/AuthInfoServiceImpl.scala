@@ -2,8 +2,9 @@ package custom
 
 import com.mohiva.play.silhouette.core.LoginInfo
 import com.mohiva.play.silhouette.core.providers.OAuth2Info
-import com.mohiva.play.silhouette.core.services.AuthInfoService
+import com.mohiva.play.silhouette.core.services.{ AuthInfoService, AuthInfo }
 import scala.concurrent.Future
+import scala.reflect.ClassTag
 
 /**
  * Base implementation to show how Guice works.
@@ -21,16 +22,18 @@ class AuthInfoServiceImpl extends AuthInfoService {
    *
    * @param loginInfo The login info for which the auth info should be saved.
    * @param authInfo The auth info to save.
-   * @return The saved auth info or None if the identity couldn't be saved.
+   * @return The saved auth info.
    */
-  def save[T](loginInfo: LoginInfo, authInfo: T): Future[Option[T]] = Future.successful(Some(authInfo))
+  def save[T <: AuthInfo](loginInfo: LoginInfo, authInfo: T): Future[T] =
+    Future.successful(authInfo)
 
   /**
    * Retrieves the auth info which is linked with the specified login info.
    *
    * @param loginInfo The linked login info.
+   * @param tag The class tag of the auth info.
    * @return The retrieved auth info or None if no auth info could be retrieved for the given login info.
    */
-  def retrieve[T](loginInfo: LoginInfo): Future[Option[T]] = Future.successful(Some(
-    OAuth2Info("token").asInstanceOf[T]))
+  def retrieve[T <: AuthInfo](loginInfo: LoginInfo)(implicit tag: ClassTag[T]): Future[Option[T]] =
+    Future.successful(Some(OAuth2Info("token").asInstanceOf[T]))
 }
