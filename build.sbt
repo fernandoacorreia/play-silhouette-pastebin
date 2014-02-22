@@ -9,10 +9,11 @@ resolvers += "Sonatype Snapshots" at "http://oss.sonatype.org/content/repositori
 libraryDependencies ++= Seq(
   jdbc, // Database access.
   "com.github.tototoshi" %% "play-flyway" % "1.0.1", // Database migration.
-  "com.github.tototoshi" %% "slick-joda-mapper" % "1.0.0", // Database access.
+  "com.github.tototoshi" %% "slick-joda-mapper" % "1.0.0", // Data mapping.
   "com.typesafe.play" %% "play-slick" % "0.6.0.1", // Database access.
-  "org.webjars" %% "webjars-play" % "2.2.0", // Support for web libraries.
-  "org.webjars" % "bootstrap" % "2.3.1", // CSS Framework.
+  "org.webjars" %% "webjars-play" % "2.2.1-2", // Support for web libraries.
+  "org.webjars" % "bootstrap" % "3.1.1", // CSS framework.
+  "org.webjars" % "jquery" % "1.11.0", // JavaScript framework.
   "com.google.inject" % "guice" % "4.0-beta", // Dependency injection.
   "net.codingwell" %% "scala-guice" % "4.0.0-beta", // Dependency injection.
   "com.mohiva" %% "play-silhouette" % "1.0-SNAPSHOT" // Authentication and authorization.

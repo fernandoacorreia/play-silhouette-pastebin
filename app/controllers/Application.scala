@@ -12,6 +12,6 @@ class Application @Inject() (
     extends Silhouette[User, CachedCookieAuthenticator] {
 
   def index = SecuredAction {
-    Ok(views.html.index("Hello Play Framework"))
+    Ok(views.html.index("Hello, Silhouette!"))
   }
 }
