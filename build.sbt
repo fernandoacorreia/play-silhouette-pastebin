@@ -20,3 +20,6 @@ libraryDependencies ++= Seq(
 )
 
 playScalaSettings
+
+// Configure Auto Refresh plugin.
+com.jamesward.play.BrowserNotifierPlugin.livereload
