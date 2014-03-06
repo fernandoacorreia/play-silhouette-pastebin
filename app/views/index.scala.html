@@ -1,9 +1,5 @@
-@(user: Option[com.mohiva.play.silhouette.contrib.User])
+@()(implicit user: Option[com.mohiva.play.silhouette.contrib.User])
 
 @main("Silhouette Pastebin") {
-  @user.map { u =>
-    <p>Hello, @u.fullName</p>
-  }.getOrElse {
-    <p>Log in with Facebook</p>
-  }
+  <p>TODO: Implement pastebin features.</p>
 }

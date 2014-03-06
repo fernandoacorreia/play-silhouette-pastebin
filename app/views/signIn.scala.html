@@ -1,0 +1,8 @@
+@()(implicit user: Option[com.mohiva.play.silhouette.contrib.User])
+
+@main("Sign in") {
+  <p>Use your existing account on one of the following services to sign in:</p>
+  <div>
+    <a href="/authenticate/facebook"><img src="@routes.Assets.at("images/providers/facebook.png")"></a>
+  </div>
+}

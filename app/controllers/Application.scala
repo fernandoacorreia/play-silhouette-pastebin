@@ -11,7 +11,19 @@ class Application @Inject() (
   val authenticatorService: AuthenticatorService[CachedCookieAuthenticator])
     extends Silhouette[User, CachedCookieAuthenticator] {
 
+  def about = UserAwareAction { implicit request =>
+    implicit val user = request.identity // TODO refactor duplicate code
+    Ok(views.html.about())
+  }
+
   def index = UserAwareAction { implicit request =>
-    Ok(views.html.index(request.identity))
+    implicit val user = request.identity
+    Ok(views.html.index())
+  }
+
+  def signIn = UserAwareAction { implicit request =>
+    implicit val user = request.identity
+    // TODO redirect to target page if already signed in
+    Ok(views.html.signIn())
   }
 }
