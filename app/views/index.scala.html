@@ -1,9 +1,9 @@
-@(message: String)
+@(user: Option[com.mohiva.play.silhouette.contrib.User])
 
 @main("Silhouette Pastebin") {
-
-  <div class="well">
-    <h1>@message</h1>
-  </div>
-
+  @user.map { u =>
+    <p>Hello, @u.fullName</p>
+  }.getOrElse {
+    <p>Log in with Facebook</p>
+  }
 }
