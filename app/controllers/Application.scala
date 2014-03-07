@@ -2,18 +2,44 @@ package controllers
 
 import com.mohiva.play.silhouette.contrib.services.CachedCookieAuthenticator
 import com.mohiva.play.silhouette.contrib.User
-import com.mohiva.play.silhouette.core.services.{ AuthenticatorService, IdentityService }
 import com.mohiva.play.silhouette.core.{ LoginInfo, Silhouette }
+import com.mohiva.play.silhouette.core.providers.oauth2._
+import com.mohiva.play.silhouette.core.services.{ AuthenticatorService, IdentityService }
 import javax.inject.Inject
+import play.api.libs.concurrent.Execution.Implicits._
+import play.Logger
 
 class Application @Inject() (
   val identityService: IdentityService[User],
-  val authenticatorService: AuthenticatorService[CachedCookieAuthenticator])
+  val authenticatorService: AuthenticatorService[CachedCookieAuthenticator],
+  val facebookProvider: FacebookProvider)
     extends Silhouette[User, CachedCookieAuthenticator] {
 
   def about = UserAwareAction { implicit request =>
     implicit val user = request.identity // TODO refactor duplicate code
     Ok(views.html.about())
+  }
+
+  def account = UserAwareAction { implicit request =>
+    implicit val user = request.identity // TODO refactor duplicate code
+    Ok(views.html.account())
+  }
+
+  def authenticate(provider: String) = UserAwareAction.async { implicit request =>
+    val p = provider match {
+      case "facebook" => facebookProvider // TODO refactor to avoid having to change this code to add providers
+      case _ => throw new Exception("Unknown provider: " + provider)
+    }
+    p.authenticate().map { authResult =>
+      authResult match {
+        case Left(result) => result
+        case Right(profile) => {
+          Logger.debug("Authenticated user: " + profile)
+          // TODO save user, create session, etc.
+          Redirect(routes.Application.account)
+        }
+      }
+    }
   }
 
   def index = UserAwareAction { implicit request =>
