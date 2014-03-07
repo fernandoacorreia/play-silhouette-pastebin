@@ -1,6 +1,4 @@
 /**
- * Users security model object.
- *
  * Copyright 2014 Mohiva Organisation (license at mohiva dot com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +23,7 @@ import org.joda.time._
 import utils.DateTimeHelper._
 
 /**
- * Represents a user.
+ * Users security model object.
  *
  * @param id This user's unique internal ID.
  * @param username This user's unique external identifier.

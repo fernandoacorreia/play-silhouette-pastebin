@@ -1,3 +1,19 @@
+/**
+ * Copyright 2014 Mohiva Organisation (license at mohiva dot com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package controllers
 
 import com.mohiva.play.silhouette.contrib.services.CachedCookieAuthenticator
@@ -9,6 +25,9 @@ import javax.inject.Inject
 import play.api.libs.concurrent.Execution.Implicits._
 import play.Logger
 
+/**
+ * Auth-enabled application controllers.
+ */
 class Application @Inject() (
   val identityService: IdentityService[User],
   val authenticatorService: AuthenticatorService[CachedCookieAuthenticator],
@@ -42,6 +61,13 @@ class Application @Inject() (
           // If the user already exists then you can update the profile with data returned from the provider.
           // To set the authenticator cookie you must first create an authenticator and then modify the response
           // with the help of the AuthenticatorService.send method.
+          //
+          // See:
+          // CachedCookieAuthenticatorService
+          // DelegableAuthInfoService
+          // AuthInfoService
+          // AuthenticatorService
+          // TokenService
           Redirect(routes.Application.account)
         }
       }

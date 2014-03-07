@@ -1,6 +1,4 @@
 /**
- * Texts domain model object.
- *
  * Copyright 2014 Mohiva Organisation (license at mohiva dot com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +23,7 @@ import org.joda.time._
 import utils.DateTimeHelper._
 
 /**
- * Represents a text.
+ * Texts domain model object.
  *
  * @param id This text's unique internal ID.
  * @param title This text's title.
