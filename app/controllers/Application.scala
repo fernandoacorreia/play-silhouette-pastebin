@@ -12,7 +12,7 @@ import play.Logger
 class Application @Inject() (
   val identityService: IdentityService[User],
   val authenticatorService: AuthenticatorService[CachedCookieAuthenticator],
-  val facebookProvider: FacebookProvider)
+  val facebookProvider: FacebookProvider) // TODO Here we should go with a ProviderService or with a map of providers.
     extends Silhouette[User, CachedCookieAuthenticator] {
 
   def about = UserAwareAction { implicit request =>
@@ -36,6 +36,12 @@ class Application @Inject() (
         case Right(profile) => {
           Logger.debug("Authenticated user: " + profile)
           // TODO save user, create session, etc.
+          // After a user is authenticated you can check if the user already exists or if this is a new user.
+          // You can check this with the help of the LoginInfo. If the user is a new user then create it in the database.
+          // You must also save the LoginInfo for the user.
+          // If the user already exists then you can update the profile with data returned from the provider.
+          // To set the authenticator cookie you must first create an authenticator and then modify the response
+          // with the help of the AuthenticatorService.send method.
           Redirect(routes.Application.account)
         }
       }
