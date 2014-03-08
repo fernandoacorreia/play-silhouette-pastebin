@@ -18,11 +18,27 @@
 
 -- TODO users, login info, profiles, etc.
 
+-- Application users.
 CREATE TABLE USERS
 (
   ID UUID PRIMARY KEY NOT NULL,
-  USERNAME VARCHAR NOT NULL,
+  FIRSTNAME VARCHAR NOT NULL,
+  LASTNAME VARCHAR,
+  FULLNAME VARCHAR,
+  EMAIL VARCHAR,
+  AVATAR VARCHAR,
   CREATION_TIME_UTC TIMESTAMP NOT NULL,
   UPDATE_TIME_UTC TIMESTAMP NOT NULL,
   IS_SOFT_DELETED BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+-- Entries that link application users to authentication provider accounts.
+-- An application user can be linked to multiple authentication provider accounts.
+-- An authentication provider account can be linked to a single application user.
+CREATE TABLE USER_LOGIN_INFO
+(
+  PROVIDER_ID VARCHAR NOT NULL,
+  PROVIDER_KEY VARCHAR NOT NULL,
+  USER_ID UUID NOT NULL,
+  PRIMARY KEY (PROVIDER_ID, PROVIDER_KEY)
 );
