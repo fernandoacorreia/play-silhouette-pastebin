@@ -26,6 +26,7 @@ import com.mohiva.play.silhouette.core.services.{ AuthInfoService, Authenticator
 import com.mohiva.play.silhouette.core.providers.OAuth2Settings
 import com.mohiva.play.silhouette.core.providers.oauth2.FacebookProvider
 import com.mohiva.play.silhouette.core.utils._
+import daos._
 import net.codingwell.scalaguice.ScalaModule
 
 /**
@@ -80,6 +81,6 @@ class BaseModule extends AbstractModule with ScalaModule {
    */
   @Provides
   def provideAuthenticationService: AuthenticationService = {
-    new AuthenticationService
+    new AuthenticationService(new UsersDAO, new UserLoginInfoDAO)
   }
 }
