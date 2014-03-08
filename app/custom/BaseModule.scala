@@ -74,4 +74,12 @@ class BaseModule extends AbstractModule with ScalaModule {
       clientID = Play.configuration.getString("silhouette.facebook.clientID").get,
       clientSecret = Play.configuration.getString("silhouette.facebook.clientSecret").get))
   }
+
+  /**
+   * Provides the authentication service.
+   */
+  @Provides
+  def provideAuthenticationService: AuthenticationService = {
+    new AuthenticationService
+  }
 }

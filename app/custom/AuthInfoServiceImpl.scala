@@ -42,7 +42,7 @@ class AuthInfoServiceImpl extends AuthInfoService {
    * @return The saved auth info.
    */
   def save[T <: AuthInfo](loginInfo: LoginInfo, authInfo: T): Future[T] = {
-    Logger.debug("TODO: save loginInfo " + loginInfo)
+    Logger.debug("TODO: authInfo must not be persisted because it contains secrets")
     Future.successful(authInfo)
   }
 
@@ -54,7 +54,7 @@ class AuthInfoServiceImpl extends AuthInfoService {
    * @return The retrieved auth info or None if no auth info could be retrieved for the given login info.
    */
   def retrieve[T <: AuthInfo](loginInfo: LoginInfo)(implicit tag: ClassTag[T]): Future[Option[T]] = {
-    Logger.debug("TODO: retrieve loginInfo")
+    Logger.debug("TODO: authInfo must not be persisted because it contains secrets")
     Future.successful(Some(OAuth2Info("token").asInstanceOf[T]))
   }
 }

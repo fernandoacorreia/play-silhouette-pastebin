@@ -21,9 +21,9 @@ import com.mohiva.play.silhouette.contrib.User
 import com.mohiva.play.silhouette.core.{ LoginInfo, Silhouette }
 import com.mohiva.play.silhouette.core.providers.oauth2._
 import com.mohiva.play.silhouette.core.services.{ AuthenticatorService, IdentityService }
+import custom.AuthenticationService
 import javax.inject.Inject
 import play.api.libs.concurrent.Execution.Implicits._
-import play.Logger
 
 /**
  * Auth-enabled application controllers.
@@ -31,7 +31,8 @@ import play.Logger
 class Application @Inject() (
   val identityService: IdentityService[User],
   val authenticatorService: AuthenticatorService[CachedCookieAuthenticator],
-  val facebookProvider: FacebookProvider) // TODO Here we should go with a ProviderService or with a map of providers.
+  val facebookProvider: FacebookProvider, // TODO Here we should go with a ProviderService or with a map of providers.
+  val authenticationService: AuthenticationService)
     extends Silhouette[User, CachedCookieAuthenticator] {
 
   def about = UserAwareAction { implicit request =>
@@ -53,21 +54,7 @@ class Application @Inject() (
       authResult match {
         case Left(result) => result
         case Right(profile) => {
-          Logger.debug("Authenticated user: " + profile)
-          // TODO save user, create session, etc.
-          // After a user is authenticated you can check if the user already exists or if this is a new user.
-          // You can check this with the help of the LoginInfo. If the user is a new user then create it in the database.
-          // You must also save the LoginInfo for the user.
-          // If the user already exists then you can update the profile with data returned from the provider.
-          // To set the authenticator cookie you must first create an authenticator and then modify the response
-          // with the help of the AuthenticatorService.send method.
-          //
-          // See:
-          // CachedCookieAuthenticatorService
-          // DelegableAuthInfoService
-          // AuthInfoService
-          // AuthenticatorService
-          // TokenService
+          authenticationService.signIn(profile) // TODO convert to an async call
           Redirect(routes.Application.account)
         }
       }
