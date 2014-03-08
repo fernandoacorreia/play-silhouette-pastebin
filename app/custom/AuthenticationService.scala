@@ -1,23 +1,31 @@
 package custom
 
+import com.mohiva.play.silhouette.contrib.services.CachedCookieAuthenticator
+import com.mohiva.play.silhouette.core.{ Authenticator, LoginInfo, Identity }
 import com.mohiva.play.silhouette.core.providers.SocialProfile
+import com.mohiva.play.silhouette.core.services.AuthenticatorService
 import daos._
 import models._
 import play.api.db.slick._
+import play.api.libs.concurrent.Execution.Implicits._
 import play.api.Logger
 import play.api.Play.current
+import scala.concurrent.Future
 
 /**
  * Provides services related to authentication.
  */
-class AuthenticationService(usersDAO: UsersDAO, userLoginInfoDAO: UserLoginInfoDAO) {
+class AuthenticationService(
+    authenticatorService: AuthenticatorService[CachedCookieAuthenticator],
+    userLoginInfoDAO: UserLoginInfoDAO,
+    usersDAO: UsersDAO) {
 
-  def signIn(profile: SocialProfile) = {
+  def signIn(profile: SocialProfile): Future[CachedCookieAuthenticator] = {
     Logger.debug("[AuthenticationService.signIn] profile=" + profile)
-
     val loginInfo = profile.loginInfo
 
     // Create user if it doesn't exist.
+    // TODO convert to async
     val exists = DB.withSession { implicit s: Session =>
       userLoginInfoDAO.exists(loginInfo)
     }
@@ -31,21 +39,26 @@ class AuthenticationService(usersDAO: UsersDAO, userLoginInfoDAO: UserLoginInfoD
       }
     }
 
-    // See:
-    // DelegableAuthInfoService
-    // AuthInfoService
-
-    // Note: Since this application supports authenticating a single user with multiple authentication provider accounts,
+    // Note: Since this application supports authenticating a single user using multiple authentication provider accounts,
     // it keeps its own user profile. For this reason we won't try to update the user profile in subsequent sign ins.
 
-    // TODO authenticator
-    // To set the authenticator cookie you must first create an authenticator and then modify the response
-    // with the help of the AuthenticatorService.send method.
-    // See:
-    // CachedCookieAuthenticatorService
-    // AuthenticatorService
-    // TokenService
+    // Create authenticator.
+    val identity = ApplicationIdentity(loginInfo)
+    authenticatorService.create(identity).map { a =>
+      a match {
+        case Some(authenticator) => {
+          Logger.debug("[AuthenticationService.signIn] created authenticator=" + authenticator)
+          authenticator
+        }
+        case None => throw new RuntimeException("Could not create an authenticator.")
+      }
+    }
 
   }
 
 }
+
+/** An identity representing an application user. */
+case class ApplicationIdentity(
+  loginInfo: LoginInfo,
+  user: Option[User] = None) extends Identity

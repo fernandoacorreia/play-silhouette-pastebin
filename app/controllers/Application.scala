@@ -24,6 +24,9 @@ import com.mohiva.play.silhouette.core.services.{ AuthenticatorService, Identity
 import custom.AuthenticationService
 import javax.inject.Inject
 import play.api.libs.concurrent.Execution.Implicits._
+import scala.concurrent.Future
+import play.api.mvc.SimpleResult
+import play.api.Logger
 
 /**
  * Auth-enabled application controllers.
@@ -50,12 +53,18 @@ class Application @Inject() (
       case "facebook" => facebookProvider // TODO refactor to avoid having to change this code to add providers
       case _ => throw new Exception("Unknown provider: " + provider)
     }
-    p.authenticate().map { authResult =>
+    p.authenticate().flatMap { authResult =>
       authResult match {
-        case Left(result) => result
+        case Left(result) => Future.successful(result)
         case Right(profile) => {
-          authenticationService.signIn(profile) // TODO convert to an async call
-          Redirect(routes.Application.account)
+          Logger.debug("[Application.authenticate] profile=" + profile)
+          authenticationService.signIn(profile).map { authenticator =>
+            Logger.debug("[Application.authenticate] authenticator=" + authenticator)
+            val result = Redirect(routes.Application.account)
+            val r = authenticatorService.send(authenticator, result)
+            Logger.debug("[Application.authenticate] result=" + r)
+            r
+          }
         }
       }
     }

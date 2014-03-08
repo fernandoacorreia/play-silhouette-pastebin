@@ -28,6 +28,7 @@ import com.mohiva.play.silhouette.core.providers.oauth2.FacebookProvider
 import com.mohiva.play.silhouette.core.utils._
 import daos._
 import net.codingwell.scalaguice.ScalaModule
+import play.api.Logger
 
 /**
  * The base module is used to wire common dependencies.
@@ -43,6 +44,15 @@ class BaseModule extends AbstractModule with ScalaModule {
     bind[CacheLayer].to[PlayCacheLayer]
     bind[HTTPLayer].to[PlayHTTPLayer]
     bind[IDGenerator].toInstance(new SecureRandomIDGenerator())
+  }
+
+  /**
+   * Provides the authentication service.
+   */
+  @Provides
+  def provideAuthenticationService(cacheLayer: CacheLayer, idGenerator: IDGenerator): AuthenticationService = {
+    new AuthenticationService(provideAuthenticatorService(cacheLayer, idGenerator), new UserLoginInfoDAO, new UsersDAO)
+    // TODO refactor, make better use of Guice
   }
 
   /**
@@ -76,11 +86,4 @@ class BaseModule extends AbstractModule with ScalaModule {
       clientSecret = Play.configuration.getString("silhouette.facebook.clientSecret").get))
   }
 
-  /**
-   * Provides the authentication service.
-   */
-  @Provides
-  def provideAuthenticationService: AuthenticationService = {
-    new AuthenticationService(new UsersDAO, new UserLoginInfoDAO)
-  }
 }

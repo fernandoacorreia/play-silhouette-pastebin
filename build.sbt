@@ -4,7 +4,11 @@ name := "play-silhouette-pastebin"
 
 version := "1.0-SNAPSHOT"
 
+// Search in Sonatype Snapshots repository.
 resolvers += "Sonatype Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/"
+
+// Search in local ivy repository.
+resolvers += Resolver.file("Local repo", file(System.getProperty("user.home") + "/.ivy2/local"))(Resolver.ivyStylePatterns)
 
 libraryDependencies ++= Seq(
   jdbc, // Database access.
