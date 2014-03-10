@@ -51,7 +51,7 @@ class BaseModule extends AbstractModule with ScalaModule {
    */
   @Provides
   def provideAuthenticationService(cacheLayer: CacheLayer, idGenerator: IDGenerator): AuthenticationService = {
-    new AuthenticationService(provideAuthenticatorService(cacheLayer, idGenerator), new UserLoginInfoDAO, new UsersDAO)
+    new AuthenticationService(provideAuthenticatorService(cacheLayer, idGenerator), new UserLoginInfoDAO, new UserDAO)
     // TODO refactor, make better use of Guice
   }
 

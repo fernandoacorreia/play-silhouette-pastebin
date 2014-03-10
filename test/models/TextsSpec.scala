@@ -18,8 +18,9 @@
 
 package models
 
+import daos._
 import java.util.UUID
-import models._;
+import models._
 import org.h2.jdbc.JdbcSQLException
 import org.specs2.mutable._
 import org.specs2.specification._
@@ -35,9 +36,12 @@ import utils.TestHelper._
 
 class TextsSpec extends Specification with BeforeExample {
 
+  val textDAO = new TextDAO
+  val userDAO = new UserDAO
+
   val defaultUsers = Seq(
-    User(username = "u1"),
-    User(username = "u2"))
+    User(email = Some("u1@example.com")),
+    User(email = Some("u2@example.com")))
 
   val defaultTexts = Seq(
     Text(title = "t1", contents = "text 1", privacyLevel = 1, creatorID = defaultUsers(0).id),
@@ -48,8 +52,8 @@ class TextsSpec extends Specification with BeforeExample {
     running(FakeApplication()) {
       DB.withSession { implicit s: Session =>
         cleanDatabase
-        defaultUsers.foreach(Users.insert)
-        defaultTexts.foreach(Texts.insert)
+        defaultUsers.foreach(userDAO.insert)
+        defaultTexts.foreach(textDAO.insert)
       }
     }
   }
@@ -60,10 +64,10 @@ class TextsSpec extends Specification with BeforeExample {
       running(FakeApplication()) {
         val text = Text(title = "x", contents = "y", privacyLevel = 1, creatorID = defaultUsers(0).id)
         DB.withSession { implicit s =>
-          val user = Users.retrieve(defaultUsers(0).id)
-          Texts.insert(text)
-          val retrieved = Texts.retrieve(text.id)
-          retrieved.get.title must be equalTo(text.title)
+          val user = userDAO.retrieve(defaultUsers(0).id)
+          textDAO.insert(text)
+          val retrieved = textDAO.retrieve(text.id)
+          retrieved.get.title must be equalTo (text.title)
         }
       }
     }
@@ -72,7 +76,7 @@ class TextsSpec extends Specification with BeforeExample {
       running(FakeApplication()) {
         val text = Text(id = defaultTexts(0).id, title = "x", contents = "y", privacyLevel = 1, creatorID = defaultUsers(0).id)
         DB.withSession { implicit s =>
-          Texts.insert(text) must throwA[JdbcSQLException]
+          textDAO.insert(text) must throwA[JdbcSQLException]
         }
       }
     }
@@ -81,7 +85,7 @@ class TextsSpec extends Specification with BeforeExample {
       running(FakeApplication()) {
         val expected = defaultTexts(0)
         DB.withSession { implicit s =>
-          val text = Texts.retrieve(expected.id)
+          val text = textDAO.retrieve(expected.id)
           text must beSome
           text.get.title must be equalTo (expected.title)
         }
@@ -91,7 +95,7 @@ class TextsSpec extends Specification with BeforeExample {
     "return None if id does not exist" in {
       running(FakeApplication()) {
         DB.withSession { implicit s =>
-          val text = Texts.retrieve(UUID.randomUUID)
+          val text = textDAO.retrieve(UUID.randomUUID)
           text must beNone
         }
       }
@@ -101,8 +105,8 @@ class TextsSpec extends Specification with BeforeExample {
       running(FakeApplication()) {
         val textToUpdate = defaultTexts(1).copy(title = "updated")
         DB.withSession { implicit s =>
-          Texts.update(textToUpdate)
-          val text = Texts.retrieve(textToUpdate.id)
+          textDAO.update(textToUpdate)
+          val text = textDAO.retrieve(textToUpdate.id)
           text must beSome
           text.get.title must be equalTo (textToUpdate.title)
         }
@@ -113,8 +117,8 @@ class TextsSpec extends Specification with BeforeExample {
       running(FakeApplication()) {
         val textToUpdate = defaultTexts(1).copy(title = "updated")
         DB.withSession { implicit s =>
-          Texts.update(textToUpdate)
-          val text = Texts.retrieve(textToUpdate.id)
+          textDAO.update(textToUpdate)
+          val text = textDAO.retrieve(textToUpdate.id)
           text must beSome
           text.get.updateTimeUTC must not be equalTo(text.get.creationTimeUTC)
         }
@@ -125,8 +129,8 @@ class TextsSpec extends Specification with BeforeExample {
       running(FakeApplication()) {
         val textToDelete = defaultTexts(2)
         DB.withSession { implicit s =>
-          Texts.delete(textToDelete)
-          val text = Texts.retrieve(textToDelete.id)
+          textDAO.delete(textToDelete)
+          val text = textDAO.retrieve(textToDelete.id)
           text must beNone
         }
       }

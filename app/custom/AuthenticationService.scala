@@ -18,7 +18,7 @@ import scala.concurrent.Future
 class AuthenticationService(
     authenticatorService: AuthenticatorService[CachedCookieAuthenticator],
     userLoginInfoDAO: UserLoginInfoDAO,
-    usersDAO: UsersDAO) {
+    usersDAO: UserDAO) {
 
   def signIn(profile: SocialProfile): Future[CachedCookieAuthenticator] = {
     Logger.debug("[AuthenticationService.signIn] profile=" + profile)

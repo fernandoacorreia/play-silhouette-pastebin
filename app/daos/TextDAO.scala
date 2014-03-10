@@ -22,8 +22,8 @@ class TextsTable(tag: Tag) extends Table[Text](tag, "TEXTS") {
     (Text.tupled, Text.unapply)
 }
 
-/** Texts data access object. */
-object TextsDAO {
+/** Data access object for [[Text]]. */
+class TextDAO {
 
   /**
    * Soft deletes a text.

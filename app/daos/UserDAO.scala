@@ -22,8 +22,8 @@ class UsersTable(tag: Tag) extends Table[User](tag, "USERS") {
     (User.tupled, User.unapply)
 }
 
-/** Users data access object. */
-class UsersDAO {
+/** Data access object for [[User]]. */
+class UserDAO {
 
   /**
    * Soft deletes a user.

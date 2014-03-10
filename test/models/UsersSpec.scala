@@ -19,7 +19,7 @@
 package models
 
 import java.util.UUID
-import models._;
+import models._
 import org.h2.jdbc.JdbcSQLException
 import org.specs2.mutable._
 import org.specs2.specification._
@@ -32,19 +32,22 @@ import play.api.Play.current
 import scala.slick.jdbc.{ StaticQuery => Q }
 import Q.interpolation
 import utils.TestHelper._
+import daos.UserDAO
 
 class UsersSpec extends Specification with BeforeExample {
 
+  val userDAO = new UserDAO
+
   val defaultUsers = Seq(
-    User(username = "u1"),
-    User(username = "u2"),
-    User(username = "u3"))
+    User(email = Some("u1@example.com")),
+    User(email = Some("u2@example.com")),
+    User(email = Some("u3@example.com")))
 
   def before {
     running(FakeApplication()) {
       DB.withSession { implicit s: Session =>
         cleanDatabase
-        defaultUsers.foreach(Users.insert)
+        defaultUsers.foreach(userDAO.insert)
       }
     }
   }
@@ -53,20 +56,20 @@ class UsersSpec extends Specification with BeforeExample {
 
     "be inserted" in {
       running(FakeApplication()) {
-        val user = User(username = "x")
+        val user = User(email = Some("x@example.com"))
         DB.withSession { implicit s =>
-          Users.insert(user)
-          val retrieved = Users.retrieve(user.id)
-          retrieved.get.username must be equalTo(user.username)
+          userDAO.insert(user)
+          val retrieved = userDAO.retrieve(user.id)
+          retrieved.get.email must be equalTo (user.email)
         }
       }
     }
 
     "not insert two users with the same id" in {
       running(FakeApplication()) {
-        val user = User(id = defaultUsers(0).id, username = "x")
+        val user = User(id = defaultUsers(0).id, email = Some("x@example.com"))
         DB.withSession { implicit s =>
-          Users.insert(user) must throwA[JdbcSQLException]
+          userDAO.insert(user) must throwA[JdbcSQLException]
         }
       }
     }
@@ -75,9 +78,9 @@ class UsersSpec extends Specification with BeforeExample {
       running(FakeApplication()) {
         val expected = defaultUsers(0)
         DB.withSession { implicit s =>
-          val user = Users.retrieve(expected.id)
+          val user = userDAO.retrieve(expected.id)
           user must beSome
-          user.get.username must be equalTo(expected.username)
+          user.get.email must be equalTo (expected.email)
         }
       }
     }
@@ -85,7 +88,7 @@ class UsersSpec extends Specification with BeforeExample {
     "return None if id does not exist" in {
       running(FakeApplication()) {
         DB.withSession { implicit s =>
-          val user = Users.retrieve(UUID.randomUUID)
+          val user = userDAO.retrieve(UUID.randomUUID)
           user must beNone
         }
       }
@@ -93,22 +96,22 @@ class UsersSpec extends Specification with BeforeExample {
 
     "be updated" in {
       running(FakeApplication()) {
-        val userToUpdate = defaultUsers(1).copy(username = "updated")
+        val userToUpdate = defaultUsers(1).copy(email = Some("updated@example.com"))
         DB.withSession { implicit s =>
-          Users.update(userToUpdate)
-          val user = Users.retrieve(userToUpdate.id)
+          userDAO.update(userToUpdate)
+          val user = userDAO.retrieve(userToUpdate.id)
           user must beSome
-          user.get.username must be equalTo(userToUpdate.username)
+          user.get.email must be equalTo (userToUpdate.email)
         }
       }
     }
 
     "modify update time on update" in {
       running(FakeApplication()) {
-        val userToUpdate = defaultUsers(1).copy(username = "updated")
+        val userToUpdate = defaultUsers(1).copy(email = Some("updated@example.com"))
         DB.withSession { implicit s =>
-          Users.update(userToUpdate)
-          val user = Users.retrieve(userToUpdate.id)
+          userDAO.update(userToUpdate)
+          val user = userDAO.retrieve(userToUpdate.id)
           user must beSome
           user.get.updateTimeUTC must not be equalTo(user.get.creationTimeUTC)
         }
@@ -119,8 +122,8 @@ class UsersSpec extends Specification with BeforeExample {
       running(FakeApplication()) {
         val userToDelete = defaultUsers(2)
         DB.withSession { implicit s =>
-          Users.delete(userToDelete)
-          val user = Users.retrieve(userToDelete.id)
+          userDAO.delete(userToDelete)
+          val user = userDAO.retrieve(userToDelete.id)
           user must beNone
         }
       }

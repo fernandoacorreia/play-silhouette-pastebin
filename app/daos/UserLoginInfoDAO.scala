@@ -17,7 +17,7 @@ class UserLoginInfoTable(tag: Tag) extends Table[UserLoginInfo](tag, "USER_LOGIN
     (UserLoginInfo.tupled, UserLoginInfo.unapply)
 }
 
-/** User login info data access object. */
+/** Data access object for [[UserLoginInfo]]. */
 class UserLoginInfoDAO {
 
   /**
