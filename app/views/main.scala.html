@@ -53,7 +53,7 @@
           <ul class="nav navbar-nav navbar-right">
             <li>
               @user.map { u =>
-                @u.fullName
+                <a href="@routes.Application.account">@u.fullName</a>
               }.getOrElse {
                 <a href="@routes.Application.signIn">Sign in</a>
               }
