@@ -2,16 +2,15 @@ package custom
 
 import com.mohiva.play.silhouette.contrib.services.CachedCookieAuthenticator
 import com.mohiva.play.silhouette.core.{ Authenticator, LoginInfo, Identity }
-import com.mohiva.play.silhouette.core.providers.SocialProfile
+import com.mohiva.play.silhouette.core.providers.{ OAuth2Info, SocialProfile }
 import com.mohiva.play.silhouette.core.services.AuthenticatorService
 import daos._
 import models._
-import play.api.db.slick._
+import play.api.db.slick._ // TODO avoid depending directly on Slick
 import play.api.libs.concurrent.Execution.Implicits._
 import play.api.Logger
 import play.api.Play.current
 import scala.concurrent.Future
-import com.mohiva.play.silhouette.core.providers.OAuth2Info
 
 /**
  * Provides services related to authentication.
@@ -54,7 +53,6 @@ class AuthenticationService(
         case None => throw new RuntimeException("Could not create an authenticator.")
       }
     }
-
   }
 
 }
