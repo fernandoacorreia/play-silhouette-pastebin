@@ -27,6 +27,7 @@ import play.api.libs.concurrent.Execution.Implicits._
 import scala.concurrent.Future
 import play.api.mvc.SimpleResult
 import play.api.Logger
+import scala.util.{ Failure, Success }
 
 /**
  * Auth-enabled application controllers.
@@ -53,19 +54,25 @@ class Application @Inject() (
       case "facebook" => facebookProvider // TODO refactor to avoid having to change this code to add providers
       case _ => throw new Exception("Unknown provider: " + provider)
     }
-    p.authenticate().flatMap { authResult =>
-      authResult match {
-        case Left(result) => Future.successful(result)
-        case Right(profile) => {
-          Logger.debug("[Application.authenticate] profile=" + profile)
-          authenticationService.signIn(profile).map { authenticator =>
-            Logger.debug("[Application.authenticate] authenticator=" + authenticator)
-            val result = Redirect(routes.Application.account)
-            val r = authenticatorService.send(authenticator, result)
-            Logger.debug("[Application.authenticate] result=" + r)
-            r
+    p.authenticate().flatMap {
+      _ match {
+        case Success(authResult) =>
+          authResult match {
+            case Left(result) => Future.successful(result)
+            case Right(profile) => {
+              Logger.debug("[Application.authenticate] profile=" + profile)
+              authenticationService.signIn(profile).map { authenticator =>
+                Logger.debug("[Application.authenticate] authenticator=" + authenticator)
+                val result = Redirect(routes.Application.account)
+                val r = authenticatorService.send(authenticator, result)
+                Logger.debug("[Application.authenticate] result=" + r)
+                r
+              }
+            }
           }
-        }
+        case Failure(ex) =>
+          Logger.debug("[Application.authenticate] Authentication failed with exception: " + ex)
+          Future.successful(BadRequest("authentication failure")) // TODO review
       }
     }
   }

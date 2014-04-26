@@ -11,6 +11,7 @@ import play.api.libs.concurrent.Execution.Implicits._
 import play.api.Logger
 import play.api.Play.current
 import scala.concurrent.Future
+import com.mohiva.play.silhouette.core.providers.OAuth2Info
 
 /**
  * Provides services related to authentication.
@@ -20,7 +21,7 @@ class AuthenticationService(
     userLoginInfoDAO: UserLoginInfoDAO,
     usersDAO: UserDAO) {
 
-  def signIn(profile: SocialProfile): Future[CachedCookieAuthenticator] = {
+  def signIn(profile: SocialProfile[OAuth2Info]): Future[CachedCookieAuthenticator] = {
     Logger.debug("[AuthenticationService.signIn] profile=" + profile)
     val loginInfo = profile.loginInfo
 

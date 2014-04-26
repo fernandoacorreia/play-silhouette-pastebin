@@ -20,6 +20,7 @@ import java.util.UUID
 import org.joda.time._
 import utils.DateTimeHelper._
 import com.mohiva.play.silhouette.core.providers.SocialProfile
+import com.mohiva.play.silhouette.core.providers.OAuth2Info
 
 /**
  * Users security model object.
@@ -50,7 +51,7 @@ object UserFactory {
    * @param profile The source social profile.
    * @return A new [[User]].
    */
-  def fromSocialProfile(profile: SocialProfile) = User(
+  def fromSocialProfile(profile: SocialProfile[OAuth2Info]) = User(
     firstName = profile.firstName,
     lastName = profile.lastName,
     fullName = profile.fullName,

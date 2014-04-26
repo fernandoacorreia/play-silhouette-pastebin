@@ -71,14 +71,13 @@ class BaseModule extends AbstractModule with ScalaModule {
   /**
    * Provides the Facebook provider.
    *
-   * @param authInfoService The auth info service.
    * @param cacheLayer The cache layer implementation.
    * @param httpLayer The HTTP layer implementation.
    * @return The Facebook provider.
    */
   @Provides
-  def provideFacebookProvider(authInfoService: AuthInfoService, cacheLayer: CacheLayer, httpLayer: HTTPLayer): FacebookProvider = {
-    new FacebookProvider(authInfoService, cacheLayer, httpLayer, OAuth2Settings(
+  def provideFacebookProvider(cacheLayer: CacheLayer, httpLayer: HTTPLayer): FacebookProvider = {
+    new FacebookProvider(cacheLayer, httpLayer, OAuth2Settings(
       authorizationURL = Play.configuration.getString("silhouette.facebook.authorizationURL").get,
       accessTokenURL = Play.configuration.getString("silhouette.facebook.accessTokenURL").get,
       redirectURL = Play.configuration.getString("silhouette.facebook.redirectURL").get,
