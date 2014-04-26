@@ -31,8 +31,8 @@ object Global extends GlobalSettings {
   val injector = Guice.createInjector(new BaseModule)
 
   /**
-   * Loads the controller classes with the Guice injector. So it's possible to inject dependencies
-   * directly into the controller.
+   * Loads the controller classes with the Guice injector,
+   * in order to be able to inject dependencies directly into the controller.
    *
    * @param controllerClass The controller class to instantiate.
    * @return The instance of the controller class.
