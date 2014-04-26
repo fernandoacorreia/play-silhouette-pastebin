@@ -59,7 +59,7 @@ class Application @Inject() (
         case Success(authResult) =>
           authResult match {
             case Left(result) => Future.successful(result)
-            case Right(profile) => {
+            case Right(profile) =>
               Logger.debug("[Application.authenticate] profile=" + profile)
               authenticationService.signIn(profile).map { authenticator =>
                 Logger.debug("[Application.authenticate] authenticator=" + authenticator)
@@ -68,7 +68,6 @@ class Application @Inject() (
                 Logger.debug("[Application.authenticate] result=" + r)
                 r
               }
-            }
           }
         case Failure(ex) =>
           Logger.debug("[Application.authenticate] Authentication failed with exception: " + ex)
